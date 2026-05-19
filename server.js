@@ -11,7 +11,7 @@ connectDB();
 const app = express();
 app.use(express.json());
 
-app.use("/" ,   router);
+app.use("/api/posts", router);
 
 app.listen(PORT, () => {
   console.log("server is running!");

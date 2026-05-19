@@ -1,4 +1,4 @@
-import { creatPost, getAllPost, removePost } from "../services/post.services";
+import { creatPost, getAllPost, removePost, updatePost } from "../services/post.services.js";
 
 const create = async (req, res) => {
   try {
@@ -41,4 +41,14 @@ const remove = async (req, res) => {
   }
 };
 
-export { create, getPosts, remove };
+const update = async (req, res) => {
+  try {
+    const post = await updatePost(req.params.id, req.body)
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
+}
+
+export { create, getPosts, remove, update };

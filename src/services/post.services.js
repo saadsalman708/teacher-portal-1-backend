@@ -9,7 +9,11 @@ const creatPost = async (data) => {
 };
 
 const removePost = async (id) => {
-  return Post.findByIdAndDelete(id);
+  return await Post.findByIdAndDelete(id);
 };
 
-export { creatPost, getAllPost, removePost };
+const updatePost = async (id, data) => {
+  return await Post.findByIdAndUpdate(id, data, { new: true });
+};
+
+export { creatPost, getAllPost, removePost, updatePost };
