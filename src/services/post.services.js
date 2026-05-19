@@ -13,7 +13,10 @@ const removePost = async (id) => {
 };
 
 const updatePost = async (id, data) => {
-  return await Post.findByIdAndUpdate(id, data, { new: true });
+  return await Post.findByIdAndUpdate(id, data, {
+    new: true,
+    runValidators: true,
+  });
 };
 
 export { creatPost, getAllPost, removePost, updatePost };

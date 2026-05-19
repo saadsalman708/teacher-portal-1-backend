@@ -1,4 +1,9 @@
-import { creatPost, getAllPost, removePost, updatePost } from "../services/post.services.js";
+import {
+  creatPost,
+  getAllPost,
+  removePost,
+  updatePost,
+} from "../services/post.services.js";
 
 const create = async (req, res) => {
   try {
@@ -43,12 +48,16 @@ const remove = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const post = await updatePost(req.params.id, req.body)
+    const updatedPost = await updatePost(req.params.id, req.body);
+    res.status(200).json({
+      message: "Post updated successfully!",
+      updatedPost,
+    });
   } catch (error) {
     res.status(500).json({
-      message: error.message
+      message: error.message,
     });
   }
-}
+};
 
 export { create, getPosts, remove, update };
