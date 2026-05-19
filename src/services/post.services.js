@@ -5,8 +5,7 @@ const getAllPost = async () => {
 };
 
 const creatPost = async (data) => {
-  const post = Post.create(data);
-  return post;
+  return await Post.create(data);
 };
 
 const removePost = async (id) => {
