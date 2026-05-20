@@ -5,9 +5,28 @@ import {
   updatePost,
 } from "../services/post.services.js";
 
+import cloudinary from "../config/cloudinary.js";
+
 const create = async (req, res) => {
   try {
     const post = await creatPost(req.body);
+
+    if (req.file) {
+      return res.status(400).json({
+        message: "File Not Found!"
+      });
+    }
+
+    const result = await cloudinary.uploader.upload(req.file.path , {
+      folder: "multerwithnodejsonsocialmediaapp"
+    });
+
+    const saveFile = await File.create({
+      fileName: req.file.originalName,
+      public_id: result.public_id,
+      imageUrl: result.secure_url,
+    });
+
     res.status(200).json({
       message: "New Post Created Successfully!",
       post,
