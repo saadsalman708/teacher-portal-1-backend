@@ -1,9 +1,11 @@
 import express from "express";
 const router = express.Router();
 
+import upload from "../middleware/multer.js";
+
 import { getPosts, create, remove , update } from "../controllers/post.controller.js";
 
-router.post("/", create);
+router.post("/", upload.single("image"), create);
 router.get("/", getPosts);
 router.put("/:id", update);
 router.delete("/:id", remove);
