@@ -1,3 +1,4 @@
+import "dotenv/config";
 import {
   creatPost,
   getAllPost,
@@ -6,28 +7,33 @@ import {
 } from "../services/post.services.js";
 
 import cloudinary from "../config/cloudinary.js";
+import { log } from "console";
 
 const create = async (req, res) => {
   try {
-    const post = await creatPost(req.body);
+    // const post = await creatPost(req.body);
 
-    if (req.file) {
+    if (!req.file) {
       return res.status(400).json({
-        message: "File Not Found!"
+        message: "File Not Found!",
       });
     }
 
-    const result = await cloudinary.uploader.upload(req.file.path , {
-      folder: "multerwithnodejsonsocialmediaapp"
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: "multerwithnodejsonsocialmediaapp",
     });
 
-    const saveFile = await File.create({
+    const postData = {
       fileName: req.file.originalName,
       public_id: result.public_id,
+      title: req.body.title,
+      description: req.body.description,
       imageUrl: result.secure_url,
-    });
+    };
 
-    res.status(200).json({
+    const post = await creatPost(postData);
+
+    res.status(201).json({
       message: "New Post Created Successfully!",
       post,
     });
