@@ -4,6 +4,7 @@ import {
   getAllUsers,
   removeUser,
   updateUser,
+  countTotalUsers,
 } from "../services/users.services.js";
 
 const create = async (req, res) => {
@@ -23,10 +24,23 @@ const create = async (req, res) => {
 
 const getUsers = async (req, res) => {
   try {
-    const users = await getAllUsers();
+    // const users = await getAllUsers();
+
+    let page = parseInt(req.query.page) || 1;
+    let limit = parseInt(req.query.limit) || 7;
+    let skip = (page - 1) * limit;
+
+    const paginatedTotleUsers = await getAllUsers(skip, limit);
+
+    const totalUsers = await countTotalUsers();
+    const totalPages = Math.ceil(totalUsers / limit);
+
     res.status(200).json({
       message: "All Users Fetched Successfully!",
-      users,
+      users: paginatedTotleUsers,
+      totalUsers,
+      totalPages,
+      currentPage: page,
     });
   } catch (error) {
     res.status(500).json({
