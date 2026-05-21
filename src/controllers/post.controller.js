@@ -11,31 +11,34 @@ import { log } from "console";
 
 const create = async (req, res) => {
   try {
-    // const post = await creatPost(req.body);
+    const post = await creatPost(req.body);
 
-    if (!req.file) {
-      return res.status(400).json({
-        message: "File Not Found!",
-      });
-    }
 
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: "multerwithnodejsonsocialmediaapp",
-    });
 
-    const postData = {
-      fileName: req.file.originalName,
-      public_id: result.public_id,
-      title: req.body.title,
-      description: req.body.description,
-      imageUrl: result.secure_url,
-    };
+    // if (!req.file) {
+    //   return res.status(400).json({
+    //     message: "File Not Found!",
+    //   });
+    // }
 
-    const post = await creatPost(postData);
+    // const result = await cloudinary.uploader.upload(req.file.path, {
+    //   folder: "multerwithnodejsonsocialmediaapp",
+    // });
+
+    // const postData = {
+    //   fileName: req.file.originalName,
+    //   public_id: result.public_id,
+    //   title: req.body.title,
+    //   description: req.body.description,
+    //   imageUrl: result.secure_url,
+    // };
+
+    // const postData = await creatPost(postData);
 
     res.status(201).json({
-      message: "New Post Created Successfully!",
+      // message: "New Post Created Successfully!",
       post,
+      // postData,
     });
   } catch (error) {
     res.status(500).json({

@@ -1,14 +1,14 @@
 import express from "express";
-const router = express.Router();
+const authRouter = express.Router();
 
-import upload from "../middleware/multer.js";
+import upaload from "../middleware/multer.js";
 
 import { getPosts, create, remove , update } from "../controllers/post.controller.js";
 
-router.post("/", upload.single("image"), create);
-// router.post("/", create);
-router.get("/", getPosts);
-router.put("/:id", update);
-router.delete("/:id", remove);
+// authRouter.post("/", upload.single("image"), create);
+authRouter.post("/", create);
+authRouter.get("/", getPosts);
+authRouter.put("/:id", update);
+authRouter.delete("/:id", remove);
 
-export default router;
+export default authRouter;
