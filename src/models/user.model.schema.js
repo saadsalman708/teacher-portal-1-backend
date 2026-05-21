@@ -12,11 +12,15 @@ const userSchema = new mongoose.Schema({
     },
     marks: {
         type: Number,
-        required: true
+        required: true,
+        max: 100,
+        min: 0,
     },
     grade: {
         type: String,
         required: true,
+        maxlength:1,
+        uppercase: true,
     }
 });
 
