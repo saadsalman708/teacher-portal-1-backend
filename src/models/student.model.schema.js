@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
+const studentSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -33,17 +33,17 @@ const userSchema = new mongoose.Schema({
 // Pre-save hook to calculate grade based on marks
 // This helps to automatically set the grade. So, frontend only needs to send marks, and grade will be calculated and saved in the database.
 
-userSchema.pre("save", function (next) {
-  const user = this;
-  if (!user.isModified("marks")) return next();
+studentSchema.pre("save", function (next) {
+  const student = this;
+  if (!student.isModified("marks")) return next();
 
-  if (user.marks >= 90) user.grade = "A";
-  else if (user.marks >= 80) user.grade = "B";
-  else if (user.marks >= 70) user.grade = "C";
-  else if (user.marks >= 60) user.grade = "D";
-  else user.grade = "F";
+  if (student.marks >= 90) student.grade = "A";
+  else if (student.marks >= 80) student.grade = "B";
+  else if (student.marks >= 70) student.grade = "C";
+  else if (student.marks >= 60) student.grade = "D";
+  else student.grade = "F";
 
   next();
 });
 
-export default mongoose.model("User", userSchema);
+export default mongoose.model("Students", studentSchema);
