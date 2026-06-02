@@ -34,7 +34,8 @@ const login = async (req, res) => {
       teacherData,
     });
   } catch (error) {
-    res.status(500).json({
+    const statusCode = error.message === "Invalid email or password!" ? 401 : 500;
+    res.status(statusCode).json({
       message: error.message,
     });
   }
