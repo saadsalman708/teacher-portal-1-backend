@@ -1,58 +1,38 @@
 import { createTeacher, loginTeacher } from "../services/auth.services.js";
+import { catchAsync } from "../utils/catchAsync.js";
 
-const signup = async (req, res) => {
-  try {
-    const user = await createTeacher(req.body);
-    res.status(201).json({
-      message: "User created successfully!",
-      user,
-    });
-  } catch (error) {
-    const statusCode = error.message === "Email already exists!" ? 400 : 500;
-    res.status(statusCode).json({
-      message: error.message,
-    });
-  }
-};
+const signup = catchAsync(async (req, res, next) => {
+  const user = await createTeacher(req.body);
+  res.status(201).json({
+    message: "User created successfully!",
+    user,
+  });
+});
 
-const login = async (req, res) => {
-  try {
-    const { teacher, token } = await loginTeacher(req.body);
+const login = catchAsync(async (req, res, next) => {
+  const { teacher, token } = await loginTeacher(req.body);
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 24 * 60 * 60 * 1000,
-    });
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 24 * 60 * 60 * 1000,
+  });
 
-    const teacherData = teacher.toObject();
-    delete teacherData.password;
+  const teacherData = teacher.toObject();
+  delete teacherData.password;
 
-    res.status(200).json({
-      message: "Login Successfully!",
-      teacherData,
-    });
-  } catch (error) {
-const statusCode = error.statusCode || 500;
-    
-    res.status(statusCode).json({
-      message: error.message,
-    });
-  }
-};
+  res.status(200).json({
+    message: "Login Successfully!",
+    teacherData,
+  });
+});
 
-const getMe = async (req, res) => {
-  try {
-    res.status(200).json({
-      success: true,
-      teacher: req.teacher,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-};
+const getMe = catchAsync(async (req, res, next) => {
+  res.status(200).json({
+    success: true,
+    teacher: req.teacher,
+  });
+});
 
-export { signup , login , getMe };
+export { signup, login, getMe };

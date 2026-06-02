@@ -26,6 +26,17 @@ app.use(cookieParser());
 app.use("/api/v1/auth", teacherRouter);
 app.use("/api/v1", studentRouter);
 
+app.use((err , req , res , next ) => {
+  const statusCode = err.statusCode || 500;
+  const msg = err.message || "Internal Server Error";
+  console.error(`[Error Vault] : ${statusCode} - ${msg}`);
+  res.status(statusCode).json({
+    success: false,
+    message: msg,
+    stack: process.env.NODE_ENV === "production" ? null : err.stack,
+  });
+});
+
 app.listen(PORT, () => {
   console.log("server is running!");
 });

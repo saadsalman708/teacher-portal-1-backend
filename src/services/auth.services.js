@@ -23,7 +23,6 @@ const loginTeacher = async (data) => {
   const { email, password } = data;
   const teacher = await Teacher.findOne({ email }).select("+password");
   if (!teacher) {
-    // throw new Error("Email not found!");
     const error = new Error("Email not found!");
     error.statusCode = 404; // 🔍 404 means Not Found
     throw error;
