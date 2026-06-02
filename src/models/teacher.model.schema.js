@@ -21,7 +21,15 @@ const teacherSchema = new mongoose.Schema({
     allowed: {
         type: Boolean,
         default: false,
-    }
+    },
+    passwordResetToken: {
+        type: String,
+        select: false,
+    },
+    passwordResetExpires: {
+        type: Date,
+        select: false,
+    },
 });
 
 export default mongoose.model("Teacher", teacherSchema);
