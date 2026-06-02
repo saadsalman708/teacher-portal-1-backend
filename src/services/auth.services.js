@@ -1,5 +1,4 @@
 import Teacher from "../models/teacher.model.schema.js";
-import bcrypt from "bcrypt";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -23,11 +22,23 @@ const createTeacher = async (data) => {
 const loginTeacher = async (data) => {
   const { email, password } = data;
   const teacher = await Teacher.findOne({ email }).select("+password");
-  if (!teacher) throw new Error("Email not found!");
-  if (!teacher.allowed)
-    throw new Error("You're not allowed to login! Admin hasn't approved you.");
+  if (!teacher) {
+    // throw new Error("Email not found!");
+    const error = new Error("Email not found!");
+    error.statusCode = 404; // 🔍 404 means Not Found
+    throw error;
+  }
+  if (!teacher.allowed){
+const error = new Error("You're not allowed to login! Admin hasn't approved you.");
+    error.statusCode = 403; // 🔍 403 means Forbidden/Unapproved
+    throw error;
+  };
   const isMatch = await bcryptjs.compare(password, teacher.password);
-  if (!isMatch) throw new Error("Invalid Email or Password!");
+  if (!isMatch) {
+    const error = new Error("Invalid Email or Password!");
+    error.statusCode = 401; // 🔍 401 means Unauthorized/Wrong Password
+    throw error;
+  };
 
   const token = jwt.sign(
     { id: teacher._id, email: teacher.email },

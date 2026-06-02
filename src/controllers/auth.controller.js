@@ -34,11 +34,25 @@ const login = async (req, res) => {
       teacherData,
     });
   } catch (error) {
-    const statusCode = error.statusCode ? 401 : 500;
+const statusCode = error.statusCode || 500;
+    
     res.status(statusCode).json({
       message: error.message,
     });
   }
 };
 
-export { signup , login };
+const getMe = async (req, res) => {
+  try {
+    res.status(200).json({
+      success: true,
+      teacher: req.teacher,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+export { signup , login , getMe };

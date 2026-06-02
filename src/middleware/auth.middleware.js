@@ -5,6 +5,7 @@ const protectTeacherRoute = async (req, res , next) => {
     try {
         const token = req.cookies.token;
         if (!token) {
+            console.log(req)
             return res.status(401).json({
                 message: "Unauthorized: No token provided!"
             });
