@@ -23,14 +23,17 @@ const forgotPasswordService = async (email) => {
 
   await teacher.save({ validateBeforeSave: false });
 
-  const resetURL = `${process.env.MAIN_URL}:${process.env.PORT}/reset-password/${rawResetToken}`;
+  const resetUrl = `${process.env.MAIN_URL}:${process.env.FRONTEND_PORT}/reset-password/${rawResetToken}`;
 
   try {
     await sendResetEmail(teacher.email, resetUrl);
     return {
-      message: "Token sent to email successfully!",
+      message: "Reset URL sent to email successfully!",
     };
   } catch (err) {
+
+    console.log("=== RAW NODEMAILER ERROR ===", err);
+
     teacher.passwordResetToken = undefined;
     teacher.passwordResetExpires = undefined;
     await teacher.save({
@@ -45,4 +48,29 @@ const forgotPasswordService = async (email) => {
   }
 };
 
-export default forgotPasswordService;
+const resetPasswordService = async (token, newPass) => {
+  const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+
+  const teacher = await Teacher.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() },
+  });
+
+  if (!teacher) {
+    const error = new Error("Token is invalid or has expired.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  teacher.password = newPass;
+  teacher.passwordResetToken = undefined;
+  teacher.passwordResetExpires = undefined;
+
+  await teacher.save();
+
+  return {
+    message: "Password updated Successfully!"
+  };
+};
+
+export {forgotPasswordService, resetPasswordService};

@@ -1,5 +1,5 @@
 import { createTeacher, loginTeacher } from "../services/auth.services.js";
-import forgotPasswordService from "../services/forgotPassword.services.js";
+import { forgotPasswordService , resetPasswordService } from "../services/forgotPassword.services.js";
 import { catchAsync } from "../utils/catchAsync.js";
 
 const signup = catchAsync(async (req, res, next) => {
@@ -45,4 +45,16 @@ const forgotPassword = catchAsync( async (req , res , next) => {
   });
 });
 
-export { signup, login, getMe, forgotPassword };
+const resetPassword = catchAsync( async (req , res , next) => {
+  const {token} = req.params;
+  const {password} = req.body;
+
+  const result = await resetPasswordService(token , password);
+
+  res.status(200).json({
+    success: true,
+    message: result.message,
+  });
+});
+
+export { signup, login, getMe, forgotPassword, resetPassword };

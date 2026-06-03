@@ -1,21 +1,21 @@
 import nodeMailer from "nodemailer";
 
-const sendResetEmail = async (email, token) => {
-    const transporter = nodeMailer.createTransport({
-        host: process.env.EMAIL_HOST,
-        port: process.env.EMAIL_PORT,
-        secure: true,
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
-        },
-    });
+const sendResetEmail = async (email, resetUrl) => {
+  const transporter = nodeMailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
 
-    const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: email,
-        subject: "Password Reset Request (Valid for 10 Mins)",
-        text: `Forgot your password? Click this link to reset it: ${resetUrl}\n\nIf you did not make this request, please ignore this email.`,
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: "Password Reset Request (Valid for 10 Mins)",
+    text: `Forgot your password? Click this link to reset it: ${resetUrl}\n\nIf you did not make this request, please ignore this email.`,
     html: `
       <div style="font-family: sans-serif; padding: 20px; background-color: #f4f4f5; border-radius: 12px;">
         <h2 style="color: #3b82f6;">Password Reset Request</h2>
@@ -24,9 +24,9 @@ const sendResetEmail = async (email, token) => {
         <p style="color: #9ca3af; font-size: 12px;">This link will expire in 10 minutes.</p>
       </div>
     `,
-    };
+  };
 
-    await transporter.sendMail(mailOptions);
+  await transporter.sendMail(mailOptions);
 };
 
 export default sendResetEmail;
