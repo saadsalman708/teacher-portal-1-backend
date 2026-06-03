@@ -9,6 +9,6 @@ teacherRouter.post("/login", login);
 teacherRouter.get("/me", protectTeacherRoute , getMe);
 teacherRouter.post("/forgot-password", forgotPassword);
 teacherRouter.patch("/reset-password/:token", resetPassword);
-teacherRouter.post("/signout", signOut);
+teacherRouter.post("/logout", signOut);
 
 export default teacherRouter;
