@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import sendResetEmail from "./email.services.js";
 import Teacher from "../models/teacher.model.schema.js";
+import bcryptjs from "bcryptjs";
 
 const forgotPasswordService = async (email) => {
   const teacher = await Teacher.findOne({ email });
@@ -61,7 +62,10 @@ const resetPasswordService = async (token, newPass) => {
     throw error;
   }
 
-  teacher.password = newPass;
+  const salt = await bcryptjs.genSalt(10);
+  const hashedPassword = await bcryptjs.hash(newPass, salt);
+
+  teacher.password = hashedPassword;
   teacher.passwordResetToken = undefined;
   teacher.passwordResetExpires = undefined;
 
