@@ -2,7 +2,7 @@ import crypto from "crypto";
 import sendResetEmail from "./email.services.js";
 import Teacher from "../models/teacher.model.schema.js";
 
-const forgetPasswordService = async (email) => {
+const forgotPasswordService = async (email) => {
   const teacher = await Teacher.findOne({ email });
   if (!teacher) {
     const error = new Error(
@@ -30,7 +30,7 @@ const forgetPasswordService = async (email) => {
     return {
       message: "Token sent to email successfully!",
     };
-  } catch (error) {
+  } catch (err) {
     teacher.passwordResetToken = undefined;
     teacher.passwordResetExpires = undefined;
     await teacher.save({
@@ -45,4 +45,4 @@ const forgetPasswordService = async (email) => {
   }
 };
 
-export default forgetPasswordService;
+export default forgotPasswordService;

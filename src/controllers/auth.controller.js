@@ -1,5 +1,5 @@
 import { createTeacher, loginTeacher } from "../services/auth.services.js";
-import {forgotPasswordService} from "../services/forgetPassword.services.js";
+import forgotPasswordService from "../services/forgotPassword.services.js";
 import { catchAsync } from "../utils/catchAsync.js";
 
 const signup = catchAsync(async (req, res, next) => {
@@ -36,7 +36,7 @@ const getMe = catchAsync(async (req, res, next) => {
   });
 });
 
-const forgotPassword = catchAsync( async (params) => {
+const forgotPassword = catchAsync( async (req , res , next) => {
   const result = await forgotPasswordService(req.body.email);
   
   res.status(200).json({

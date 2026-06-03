@@ -16,8 +16,8 @@ const app = express();
 
 // app.use(cors());
 app.use(cors({
-    origin: "http://localhost:3000", // 🤝 Explicitly trust your frontend domain!
-    credentials: true                // 🔑 Explicitly allow the browser to send cookies!
+    origin: "http://localhost:3000",      // 🤝 Explicitly trust your frontend domain!
+    credentials: true                     // 🔑 Explicitly allow the browser to send cookies!
 }));
 
 app.use(express.json());
