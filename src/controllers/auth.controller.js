@@ -1,5 +1,8 @@
 import { createTeacher, loginTeacher } from "../services/auth.services.js";
-import { forgotPasswordService , resetPasswordService } from "../services/forgotPassword.services.js";
+import {
+  forgotPasswordService,
+  resetPasswordService,
+} from "../services/forgotPassword.services.js";
 import { catchAsync } from "../utils/catchAsync.js";
 
 const signup = catchAsync(async (req, res, next) => {
@@ -36,20 +39,8 @@ const getMe = catchAsync(async (req, res, next) => {
   });
 });
 
-const forgotPassword = catchAsync( async (req , res , next) => {
+const forgotPassword = catchAsync(async (req, res, next) => {
   const result = await forgotPasswordService(req.body.email);
-  
-  res.status(200).json({
-    success: true,
-    message: result.message,
-  });
-});
-
-const resetPassword = catchAsync( async (req , res , next) => {
-  const {token} = req.params;
-  const {password} = req.body;
-
-  const result = await resetPasswordService(token , password);
 
   res.status(200).json({
     success: true,
@@ -57,7 +48,19 @@ const resetPassword = catchAsync( async (req , res , next) => {
   });
 });
 
-const signOut = (req , res , next) => {
+const resetPassword = catchAsync(async (req, res, next) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  const result = await resetPasswordService(token, password);
+
+  res.status(200).json({
+    success: true,
+    message: result.message,
+  });
+});
+
+const signOut = (req, res, next) => {
   res.clearCookie("token", "", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -67,8 +70,8 @@ const signOut = (req , res , next) => {
 
   res.status(200).json({
     success: true,
-    message: "Logged out Successfully!"
+    message: "Logged out Successfully!",
   });
 };
 
-export { signup, login, getMe, forgotPassword, resetPassword, signOut};
+export { signup, login, getMe, forgotPassword, resetPassword, signOut };

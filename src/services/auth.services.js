@@ -27,17 +27,19 @@ const loginTeacher = async (data) => {
     error.statusCode = 404; // 🔍 404 means Not Found
     throw error;
   }
-  if (!teacher.allowed){
-const error = new Error("You're not allowed to login! Admin hasn't approved you.");
+  if (!teacher.allowed) {
+    const error = new Error(
+      "You're not allowed to login! Admin hasn't approved you.",
+    );
     error.statusCode = 403; // 🔍 403 means Forbidden/Unapproved
     throw error;
-  };
+  }
   const isMatch = await bcryptjs.compare(password, teacher.password);
   if (!isMatch) {
     const error = new Error("Invalid Email or Password!");
     error.statusCode = 401; // 🔍 401 means Unauthorized/Wrong Password
     throw error;
-  };
+  }
 
   const token = jwt.sign(
     { id: teacher._id, email: teacher.email },

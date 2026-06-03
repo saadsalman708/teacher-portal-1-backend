@@ -31,7 +31,6 @@ const forgotPasswordService = async (email) => {
       message: "Reset URL sent to email successfully!",
     };
   } catch (err) {
-
     console.log("=== RAW NODEMAILER ERROR ===", err);
 
     teacher.passwordResetToken = undefined;
@@ -69,8 +68,8 @@ const resetPasswordService = async (token, newPass) => {
   await teacher.save();
 
   return {
-    message: "Password updated Successfully!"
+    message: "Password updated Successfully!",
   };
 };
 
-export {forgotPasswordService, resetPasswordService};
+export { forgotPasswordService, resetPasswordService };

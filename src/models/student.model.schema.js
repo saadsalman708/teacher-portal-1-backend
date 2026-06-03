@@ -27,9 +27,6 @@ const studentSchema = new mongoose.Schema({
   },
 });
 
-
-
-
 // Pre-save hook to calculate grade based on marks
 // This helps to automatically set the grade. So, frontend only needs to send marks, and grade will be calculated and saved in the database.
 

@@ -3,7 +3,12 @@ import protectTeacherRoute from "../middleware/auth.middleware.js";
 
 const studentRouter = express.Router();
 
-import { getStudents , create , remove , update} from "../controllers/student.controller.js";
+import {
+  getStudents,
+  create,
+  remove,
+  update,
+} from "../controllers/student.controller.js";
 
 studentRouter.get("/students", protectTeacherRoute, getStudents);
 studentRouter.post("/student/create", protectTeacherRoute, create);

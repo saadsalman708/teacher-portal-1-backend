@@ -4,7 +4,7 @@ const getAllStudents = async (skip, limit) => {
   return await student.find({}).skip(skip).limit(limit);
 };
 
-const countTotalStudents = async ()=> {
+const countTotalStudents = async () => {
   return await student.countDocuments();
 };
 
@@ -23,4 +23,10 @@ const updateStudent = async (id, data) => {
   });
 };
 
-export { createStudent, getAllStudents, removeStudent, updateStudent, countTotalStudents };
+export {
+  createStudent,
+  getAllStudents,
+  removeStudent,
+  updateStudent,
+  countTotalStudents,
+};
