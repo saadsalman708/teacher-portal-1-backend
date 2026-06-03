@@ -57,4 +57,18 @@ const resetPassword = catchAsync( async (req , res , next) => {
   });
 });
 
-export { signup, login, getMe, forgotPassword, resetPassword };
+const signOut = (req , res , next) => {
+  res.clearCookie("token", "", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    expires: new Date(0),
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "Logged out Successfully!"
+  });
+};
+
+export { signup, login, getMe, forgotPassword, resetPassword, signOut};
