@@ -15,9 +15,21 @@ connectDB();
 const app = express();
 
 // app.use(cors());
+const allowedOrigins = [
+  "http://localhost:3000", // For local testing
+  "https://teacher-portal-1-frontend.vercel.app" // 🚨 Replace with your official live Vercel domain!
+];
+
 app.use(cors({
-    origin: "http://localhost:3000",      // 🤝 Explicitly trust your frontend domain!
-    credentials: true                     // 🔑 Explicitly allow the browser to send cookies!
+    origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      return callback(new Error("The CORS policy for this site does not allow access from the specified Origin."), false);
+    }
+    return callback(null, true);
+  },
+    credentials: true     // 🔑 Explicitly allow the browser to send cookies!
 }));
 
 app.use(express.json());
@@ -38,5 +50,5 @@ app.use((err , req , res , next ) => {
 });
 
 app.listen(PORT, () => {
-  console.log("server is running!");
+  console.log(`server is running on PORT ${PORT}!`);
 });

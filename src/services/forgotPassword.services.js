@@ -24,7 +24,8 @@ const forgotPasswordService = async (email) => {
 
   await teacher.save({ validateBeforeSave: false });
 
-  const resetUrl = `${process.env.MAIN_URL}:${process.env.FRONTEND_PORT}/reset-password/${rawResetToken}`;
+  // const resetUrl = `${process.env.MAIN_URL}:${process.env.FRONTEND_PORT}/reset-password/${rawResetToken}`;
+  const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${rawResetToken}`;
 
   try {
     await sendResetEmail(teacher.email, resetUrl);
