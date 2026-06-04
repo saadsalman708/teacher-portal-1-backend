@@ -7,7 +7,7 @@ import {
   countTotalStudents,
 } from "../services/students.services.js";
 
-const create = async (req, res) => {
+const create = async (req, res, next) => {
   try {
     const student = await createStudent(req.body);
 
@@ -29,10 +29,21 @@ const getStudents = async (req, res) => {
     let page = Number(req.query.page) || 1;
     let limit = Number(req.query.limit) || 7;
     let skip = (page - 1) * limit;
+    let search = req.query.search || "";
 
-    const paginatedTotalStudents = await getAllStudents(skip, limit);
+    let sortBy = req.query.sortBy || "_id";
+    let sortOrder = req.query.sortOrder || "desc";
 
-    const totalStudents = await countTotalStudents();
+    // 2. ✅ PASS them into your service function here
+    const paginatedTotalStudents = await getAllStudents(
+      skip,
+      limit,
+      search,
+      sortBy,
+      sortOrder,
+    );
+
+    const totalStudents = await countTotalStudents(search);
     const totalPages = Math.ceil(totalStudents / limit);
 
     res.status(200).json({

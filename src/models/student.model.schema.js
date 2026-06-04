@@ -21,7 +21,6 @@ const studentSchema = new mongoose.Schema({
   },
   grade: {
     type: String,
-    required: true,
     maxlength: 1,
     uppercase: true,
   },
@@ -30,9 +29,11 @@ const studentSchema = new mongoose.Schema({
 // Pre-save hook to calculate grade based on marks
 // This helps to automatically set the grade. So, frontend only needs to send marks, and grade will be calculated and saved in the database.
 
-studentSchema.pre("save", function (next) {
+// studentSchema.pre("save", function (next) {
+studentSchema.pre("save", function () {
   const student = this;
-  if (!student.isModified("marks")) return next();
+  // if (!student.isModified("marks")) return next();
+  if (!student.isModified("marks")) return ;
 
   if (student.marks >= 90) student.grade = "A";
   else if (student.marks >= 80) student.grade = "B";
@@ -40,7 +41,7 @@ studentSchema.pre("save", function (next) {
   else if (student.marks >= 60) student.grade = "D";
   else student.grade = "F";
 
-  next();
+  // next();
 });
 
 export default mongoose.model("Students", studentSchema);
