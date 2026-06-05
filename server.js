@@ -16,9 +16,10 @@ connectDB();
 const app = express();
 
 // app.use(cors());
+
 const allowedOrigins = [
-  "http://localhost:3000", // For local testing
-  "https://teacher-portal-1-frontend.vercel.app" // 🚨 Replace with your official live Vercel domain!
+  // `http://localhost:3000`,
+  `${process.env.FRONTEND_URL}`
 ];
 
 app.use(cors({

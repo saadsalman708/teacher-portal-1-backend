@@ -24,7 +24,7 @@ const forgotPasswordService = async (email) => {
 
   await teacher.save({ validateBeforeSave: false });
 
-  // const resetUrl = `${process.env.MAIN_URL}:${process.env.FRONTEND_PORT}/reset-password/${rawResetToken}`;
+  // const resetUrl = `${process.env.FRONTEND_URL}:${process.env.FRONTEND_PORT}/reset-password/${rawResetToken}`;
   const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${rawResetToken}`;
 
   try {
@@ -37,9 +37,7 @@ const forgotPasswordService = async (email) => {
 
     teacher.passwordResetToken = undefined;
     teacher.passwordResetExpires = undefined;
-    await teacher.save({
-      validateBeforeSave: false,
-    });
+    await teacher.save({ validateBeforeSave: false });
 
     const error = new Error(
       "There was an error sending the email. Try again later.",

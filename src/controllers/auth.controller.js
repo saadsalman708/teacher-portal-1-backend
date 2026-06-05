@@ -65,7 +65,8 @@ const signOut = (req, res, next) => {
   res.clearCookie("token", "", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    // sameSite: "strict",
+    sameSite: "none",
     expires: new Date(0),
   });
 

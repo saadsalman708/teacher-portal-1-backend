@@ -25,7 +25,7 @@ const getAllStudents = async (
     .skip(skip)
     .limit(limit)
     .sort(sortString)
-    .collation({ locale: "en", strength: 2 }); // Pass the string here instead
+    .collation({ locale: "en", strength: 2 }); // Pass the string here instead    // ??
 };
 
 const countTotalStudents = async (search = "") => {
@@ -39,7 +39,6 @@ const countTotalStudents = async (search = "") => {
       }
     : {};
 
-  // ✅ Changed to lowercase 'student' to match your import
   return await student.countDocuments(query);
 };
 
@@ -52,16 +51,16 @@ const removeStudent = async (id) => {
 };
 
 const updateStudent = async (id, data) => {
-  // 1. Fetch the student document from the database
+
   const studentDoc = await student.findById(id);
   if (!studentDoc) throw new Error("Student not found");
 
-  // 2. Update the fields manually if they are provided in the request body
+  // Update the fields manually if they are provided in the request body
   if (data.name !== undefined) studentDoc.name = data.name;
   if (data.email !== undefined) studentDoc.email = data.email;
-  if (data.marks !== undefined) studentDoc.marks = Number(data.marks); // Ensure it's a number
+  if (data.marks !== undefined) studentDoc.marks = Number(data.marks);
 
-  // 3. Save the document! This explicitly triggers your pre("save") hook to recalculate the grade.
+  // Save the document! This explicitly triggers your pre("save") hook to recalculate the grade.
   return await studentDoc.save();
 };
 
