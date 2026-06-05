@@ -5,6 +5,7 @@ import connectDB from "./src/config/db.js";
 import authRouter from "./src/routes/post.routes.js";
 import studentRouter from "./src/routes/student.routes.js";
 import teacherRouter from "./src/routes/teacher.routes.js";
+import helmet from "helmet";
 import cors from "cors";
 import "dotenv/config";
 
@@ -32,6 +33,7 @@ app.use(cors({
     credentials: true     // 🔑 Explicitly allow the browser to send cookies!
 }));
 
+app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 
